@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+
+    <bean id="jedisPool" class="redis.clients.jedis.JedisPool" lazy-init="true">
+        <!-- 连接池配置 -->
+        <constructor-arg index="0">
+            <ref bean="jedisPoolConfig"/>
+        </constructor-arg>
+        <!-- host -->
+        <constructor-arg index="1" value="127.0.0.1" type="java.lang.String"></constructor-arg><!-- 172.24.183.235" -->
+        <!-- port-->
+        <!-- constructor-arg index="2" value="6379" type="int" /-->
+        <!-- timeout-->
+        <!-- constructor-arg index="3" value="2000" type="int" /-->
+        <!-- password-->
+        <!-- constructor-arg index="4" value="82130833" type="String" /-->
+    </bean>
+    <!-- 连接池设置 -->
+    <!--
+    <bean id="poolConfig" class="org.apache.commons.pool2.impl.GenericObjectPoolConfig">
+
+        <property name="maxTotal" value="8" />
+        <property name="maxIdle" value="8" />
+        <property name="minIdle" value="0" />
+        -->
+    <!-- 获取连接时的最大等待毫秒数(如果设置为阻塞时BlockWhenExhausted),如果超时就抛异常, 小于零:阻塞不确定的时间,  默认-1 -->
+    <!--
+    <property name="maxWaitMillis" value="-1" />
+</bean>
+-->
+    <!-- redis连接池的配置 -->
+    <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <!--<property name="maxActive" value="${redis.pool.maxActive}"/>-->
+        <property name="maxIdle" value="${redis.pool.maxIdle}"/>
+        <property name="minIdle" value="${redis.pool.minIdle}"/>
+        <!--<property name="maxWait" value="${redis.pool.maxWait}"/>-->
+        <property name="testOnBorrow" value="${redis.pool.testOnBorrow}"/>
+        <property name="testOnReturn" value="${redis.pool.testOnReturn}"/>
+    </bean>
+
+</beans>
